@@ -1,3 +1,5 @@
+import { getResource } from "../services/services";
+
 function cards() {
     const menuContainer = document.querySelector(".menu__field .container");
     menuContainer.innerHTML = "";
@@ -37,16 +39,6 @@ function cards() {
               `;
         this.parent.append(element);
       }
-    }
-  
-    const getResource = async (url) => {
-      const res = await fetch(url);
-  
-      if (!res.ok) {
-        throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-      }
-  
-      return await res.json();
     }
   
     getResource("http://localhost:3000/menu")

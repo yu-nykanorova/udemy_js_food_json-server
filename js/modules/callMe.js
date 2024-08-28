@@ -1,5 +1,8 @@
-function callMe() {
-    const forms = document.querySelectorAll("form");
+import { closeModal, openModal } from "./modal";
+import { postData } from "../services/services";
+
+function callMe(formSelector, modalTimerId) {
+    const forms = document.querySelectorAll(formSelector);
   
     const message = {
       loading: "icons/spinner-solid.svg",
@@ -11,23 +14,11 @@ function callMe() {
       bindPostData(item);
     });
   
-    const postData = async (url, data) => {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-type": "applicstion/json"
-        },
-        body: data
-      });
-  
-      return await res.json();
-    }
-  
     function bindPostData(form) {
-      form.addEventListener("submit", event => {
+      form.addEventListener("submit", (event) => {
         event.preventDefault();
   
-        const statusMessage = document.createElement("img");
+        let statusMessage = document.createElement("img");
   
         statusMessage.src = message.loading;
         statusMessage.style.cssText = `
@@ -60,7 +51,7 @@ function callMe() {
       
       prevModalDialog.classList.add("hide");
       
-      openModal();
+      openModal("[data-modal]", modalTimerId);
       
       const thanksModal = document.createElement("div");
       
@@ -72,13 +63,13 @@ function callMe() {
               </div>
           `;
   
-      modal.append(thanksModal);
+      document.querySelector("[data-modal]").append(thanksModal);
   
       setTimeout(() => {
         thanksModal.remove();
         prevModalDialog.classList.add("show");
         prevModalDialog.classList.remove("hide");
-        closeModal();
+        closeModal("[data-modal]");
       }, 4000);
     }
 }
